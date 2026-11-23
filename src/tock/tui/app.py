@@ -6,6 +6,7 @@ from __future__ import annotations
 import time
 from datetime import datetime, timedelta
 
+from rich.table import Table
 from rich.text import Text
 from textual import on
 from textual.app import App, ComposeResult
@@ -80,7 +81,7 @@ class TockApp(App):
                     yield Label("", id="clock-date")
                     yield Label("", id="clock-next")
                     yield Label("Coming up", id="soon-title")
-                    yield Static("", id="soon-list")
+                    yield Center(Static("", id="soon-list"), id="soon-wrap")
             with TabPane("Alarms", id="alarms"):
                 with Vertical(id="alarms-pane"):
                     with Horizontal(classes="toolbar"):
@@ -194,9 +195,13 @@ class TockApp(App):
         else:
             self.query_one("#clock-next", Label).update("No alarms on. Press n to add one.")
             self.query_one("#top-next", Label).update("")
-        rows = [f"{due:%a} {self._fmt(due):>11}   {alarm.label or 'Alarm':<18} {humanize_until(due, now)}"
-                for alarm, due in upcoming[:4]]
-        self.query_one("#soon-list", Static).update("\n".join(rows) or "[dim]Nothing scheduled.[/]")
+        soon = Table.grid(padding=(0, 3))
+        for justify in ("left", "right", "left", "right"):
+            soon.add_column(justify=justify)
+        for alarm, due in upcoming[:5]:
+            soon.add_row(f"{due:%a}", Text(self._fmt(due), style="bold"), alarm.label or "Alarm",
+                         Text(humanize_until(due, now), style="dim"))
+        self.query_one("#soon-list", Static).update(soon if upcoming else "Nothing scheduled.")
         self._paint_next_column(now)
 
     def _fmt(self, d: datetime) -> str:
@@ -371,7 +376,7 @@ class TockApp(App):
         self.action_edit_alarm()
 
     # timer
-    def set_timer(self, text: str) -> bool:
+    def load_countdown(self, text: str) -> bool:
         try:
             seconds = parse_duration(text).total_seconds()
         except ParseError as exc:
@@ -428,12 +433,12 @@ class TockApp(App):
         if bid in actions:
             actions[bid]()
         elif bid.startswith("t-") and bid[2:] in TIMER_PRESETS:
-            if self.set_timer(bid[2:]):
+            if self.load_countdown(bid[2:]):
                 self.action_timer_toggle()
 
     @on(Input.Submitted, "#t-custom")
     def _custom_timer(self, event: Input.Submitted) -> None:
-        if self.set_timer(event.value):
+        if self.load_countdown(event.value):
             event.input.value = ""
             self.action_timer_toggle()
             self.query_one("#t-start").focus()
