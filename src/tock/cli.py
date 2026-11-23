@@ -76,10 +76,11 @@ def cmd_list(s: Session, args) -> int:
         print("No alarms. Add one: tock add 7:30am -l Standup -r weekdays")
         return 0
     now = local_now()
-    print(f"{'ID':<8}{'TIME':<12}{'REPEAT':<18}{'ON':<5}{'NEXT':<14}LABEL")
+    print(f"{'ID':<8}{'TIME':<12}{'REPEAT':<18}{'STATE':<9}{'NEXT':<14}LABEL")
     for a in alarms:
         due = due_time(a, now)
-        print(f"{a.id:<8}{a.time_text(s.settings.clock_24h):<12}{a.repeat_text():<18}{'yes' if a.enabled else 'no':<5}"
+        state = "snoozed" if a.snoozed_until else "on" if a.enabled else "off"
+        print(f"{a.id:<8}{a.time_text(s.settings.clock_24h):<12}{a.repeat_text():<18}{state:<9}"
               f"{humanize_until(due, now) if due else '-':<14}{a.label}")
     return 0
 
