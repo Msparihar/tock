@@ -1,0 +1,90 @@
+Screen {
+    background: $background;
+}
+
+/* ---- top bar --------------------------------------------------------- */
+#topbar {
+    height: 1;
+    padding: 0 2;
+    background: $panel;
+}
+#brand { text-style: bold; color: $accent; width: auto; }
+#top-next { width: 1fr; content-align: center middle; color: $warning; }
+#top-date { width: auto; color: $text-muted; }
+
+TabbedContent { height: 1fr; }
+TabPane { padding: 1 2; }
+
+.toolbar { height: auto; width: auto; margin: 1 0; }
+.toolbar Button { margin: 0 1 0 0; }
+
+/* ---- clock ----------------------------------------------------------- */
+#clock-pane { align: center middle; height: 1fr; }
+#clock-row { height: 7; width: auto; }
+#big-clock { color: $accent; }
+#ampm { width: auto; height: 7; padding: 0 0 0 2; content-align: left bottom; color: $text-muted; text-style: bold; }
+#clock-date { width: 100%; content-align: center middle; margin-top: 2; color: $text; text-style: bold; }
+#clock-next { width: 100%; content-align: center middle; margin-top: 1; color: $warning; }
+#soon-title { width: 100%; content-align: center middle; margin-top: 3; color: $text-muted; text-style: bold underline; }
+#soon-list { width: auto; margin-top: 1; color: $text; }
+#clock-pane > #soon-list { width: 100%; content-align: center top; text-align: center; }
+
+/* ---- alarms ---------------------------------------------------------- */
+#alarms-pane { height: 1fr; }
+#alarm-table { height: 1fr; border: round $primary 40%; }
+#alarm-table:focus { border: round $accent; }
+#alarms-empty { width: 100%; height: 1fr; content-align: center middle; color: $text-muted; }
+
+/* ---- timer ----------------------------------------------------------- */
+#timer-pane { align: center middle; height: 1fr; }
+#timer-digits { color: $success; }
+#timer-bar { width: 72; margin-top: 2; }
+#timer-bar Bar { width: 72; }
+#timer-status { width: 100%; content-align: center middle; color: $text-muted; margin-top: 1; }
+#timer-presets Button.preset { min-width: 6; margin: 0 1 0 0; }
+#t-custom { width: 22; height: 1; border: none; padding: 0 1; background: $boost; }
+
+/* ---- stopwatch ------------------------------------------------------- */
+#sw-pane { align: center top; height: 1fr; padding-top: 2; }
+#sw-digits { color: $secondary; }
+#sw-pane Center { height: auto; }
+#sw-pane #lap-wrap { height: 1fr; }
+#lap-table { height: 1fr; width: 56; margin-top: 1; border: round $primary 40%; }
+
+/* ---- ring screen ----------------------------------------------------- */
+RingScreen { align: center middle; background: $background 85%; }
+#ring-box {
+    width: 84;
+    height: auto;
+    padding: 1 4 2 4;
+    border: thick $warning;
+    background: $surface;
+}
+#ring-box.-flash { border: thick $error; background: $error 15%; }
+#ring-kicker { width: 100%; content-align: center middle; color: $warning; text-style: bold; margin-bottom: 1; }
+#ring-clock { color: $warning; }
+#ring-title { width: 100%; content-align: center middle; text-style: bold; margin-top: 1; }
+#ring-subtitle { width: 100%; content-align: center middle; color: $text-muted; }
+#ring-buttons { width: 100%; height: auto; align: center middle; margin-top: 2; }
+#ring-buttons Button { margin: 0 2; min-width: 22; }
+
+/* ---- alarm form ------------------------------------------------------ */
+AlarmForm { align: center middle; background: $background 70%; }
+#form-box {
+    width: 64;
+    height: auto;
+    padding: 1 3;
+    border: thick $accent;
+    background: $surface;
+}
+#form-title { text-style: bold; color: $accent; margin-bottom: 1; }
+.field-label { color: $text-muted; margin-top: 1; }
+#f-presets { height: auto; margin-top: 0; }
+#f-presets Button { margin: 0 1 0 0; width: auto; min-width: 10; padding: 0 1; }
+#f-days { grid-size: 7; grid-gutter: 0 1; height: 1; margin-top: 1; }
+#f-days Button { width: 100%; min-width: 5; }
+Button.-on { background: $accent; color: $background; text-style: bold; }
+#f-preview { margin-top: 1; color: $success; height: auto; }
+#f-preview.-error { color: $error; }
+#form-buttons { height: auto; margin-top: 1; align: right middle; }
+#form-buttons Button { margin: 0 0 0 2; }
